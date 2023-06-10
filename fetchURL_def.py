@@ -32,9 +32,18 @@ class FetchTwitterUrl:
         # extract userID from query str
         self.userID = self.query.split(' ')[0].split(':')[1]
         self.df.to_csv('../Meta/Twitter/'+self.userID+'.csv', index = False, encoding='utf_8_sig')
+    # wirte a function to fetch the URL column into a txt file and relace each new line with space
+    def save_url_to_txt(self):
+        with open('../Meta/Twitter/urls.txt', 'w') as f:
+            f.write(self.df['URL'].str.cat(sep=' '))
+            f.close()
+
 
 ### test
-# fetch_twitter_url = FetchTwitterUrl('from:whyyoutouzhele since:2023-06-01 until:2023-06-09', 1000)
-# fetch_twitter_url.get_tweets()
-# fetch_twitter_url.get_df()
+fetch_twitter_url = FetchTwitterUrl('from:whyyoutouzhele since:2023-06-01 until:2023-06-09', 1000)
+fetch_twitter_url.get_tweets()
+fetch_twitter_url.get_df()
 # fetch_twitter_url.get_csv()
+
+fetch_twitter_url.save_url_to_txt()
+
