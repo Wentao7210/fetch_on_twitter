@@ -8,7 +8,7 @@ def download_twitter_video(twitter_url, file_name):
     os.system(command)
 
 # Example usage
-df = pd.read_csv('F:/Meta/Twitter/whyyoutouzhele.csv')
+df = pd.read_csv('F:/Meta/Twitter/clcoding.csv')
 urls = df['URL'].tolist()
 for i in range(len(urls)):
     download_twitter_video(urls[i], 'twittervid'+str(i)+'.mp4')

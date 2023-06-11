@@ -53,7 +53,9 @@ class TwitterVideoDownload:
 
 
 ### test
-fetch_twitter_url = FetchTwitterUrl('from:whyyoutouzhele since:2023-06-01 until:2023-06-09', 1000)
+fetch_twitter_url = FetchTwitterUrl('from:user since:2022-06-01 until:2023-06-10', 1000)
 fetch_twitter_url.get_tweets()
 fetch_twitter_url.get_df()
-# fetch_twitter_url.get_csv()
+fetch_twitter_url.get_csv()
+#twitter_video_download = TwitterVideoDownload('D:/Twitter_videos')
+#twitter_video_download.download_videos_from_csv('F:/Meta/Twitter/user.csv')
