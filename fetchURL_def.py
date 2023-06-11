@@ -1,5 +1,6 @@
 import pandas as pd
 import snscrape.modules.twitter as sntwitter
+import os
 
 
 # wirte a class for these codes above
@@ -32,11 +33,23 @@ class FetchTwitterUrl:
         # extract userID from query str
         self.userID = self.query.split(' ')[0].split(':')[1]
         self.df.to_csv('../Meta/Twitter/'+self.userID+'.csv', index = False, encoding='utf_8_sig')
-    # wirte a function to fetch the URL column into a txt file and relace each new line with space
-    def save_url_to_txt(self):
-        with open('../Meta/Twitter/urls.txt', 'w') as f:
-            f.write(self.df['URL'].str.cat(sep=' '))
-            f.close()
+
+
+class TwitterVideoDownload:
+    def __init__(self, output_directory):
+        self.output_directory = output_directory
+
+    def download_videos_from_csv(self, csv_file):
+        df = pd.read_csv(csv_file)
+        urls = df['URL'].tolist()
+        for i, url in enumerate(urls):
+            file_name = f"twittervid{i}.mp4"
+            self.download_twitter_video(url, file_name)
+
+    def download_twitter_video(self, twitter_url, file_name):
+        output_path = os.path.join(self.output_directory, file_name)
+        command = f"python F:/Meta/Github/twitter-video-dl/video-dl.py {twitter_url} {output_path}"
+        os.system(command)
 
 
 ### test
@@ -44,6 +57,3 @@ fetch_twitter_url = FetchTwitterUrl('from:whyyoutouzhele since:2023-06-01 until:
 fetch_twitter_url.get_tweets()
 fetch_twitter_url.get_df()
 # fetch_twitter_url.get_csv()
-
-fetch_twitter_url.save_url_to_txt()
-
