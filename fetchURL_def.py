@@ -38,6 +38,11 @@ class FetchTwitterUrl:
 class TwitterVideoDownload:
     def __init__(self, output_directory):
         self.output_directory = output_directory
+    
+    def download_videos_from_list(self, url_list):
+        for i, url in enumerate(url_list):
+            file_name = f"twittervid{i}.mp4"
+            self.download_twitter_video(url, file_name)
 
     def download_videos_from_csv(self, csv_file):
         df = pd.read_csv(csv_file)
