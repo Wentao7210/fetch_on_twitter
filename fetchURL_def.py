@@ -58,7 +58,7 @@ class TwitterVideoDownload:
 
 
 ### test
-fetch_twitter_url = FetchTwitterUrl('from:elonmusk since:2023-06-01 until:2023-06-16', 100000)
+fetch_twitter_url = FetchTwitterUrl('from:ADHD since:2023-06-01 until:2023-06-16', 100000)
 fetch_twitter_url.get_tweets()
 fetch_twitter_url.get_df()
 fetch_twitter_url.get_csv()
