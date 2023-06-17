@@ -7,7 +7,7 @@ import os
 class FetchTwitterUrl:
     def __init__(self, query, limit):
         '''
-        query: query = 'from:userID since:YYYY-MM-DD until:YYYY-MM-DD'
+        query: query = 'search text since:YYYY-MM-DD until:YYYY-MM-DD'
         limit: int
         '''
         self.query = query
@@ -30,9 +30,7 @@ class FetchTwitterUrl:
         return self.df
 
     def get_csv(self):
-        # extract userID from query str
-        self.userID = self.query.split(' ')[0].split(':')[1]
-        self.df.to_csv('../Meta/Twitter/'+self.userID+'.csv', index = False, encoding='utf_8_sig')
+        self.df.to_csv('user.csv', index=False, encoding='utf_8_sig')
 
 
 class TwitterVideoDownload:
@@ -58,7 +56,7 @@ class TwitterVideoDownload:
 
 
 ### test
-fetch_twitter_url = FetchTwitterUrl('from:ADHD since:2023-06-01 until:2023-06-16', 100000)
+fetch_twitter_url = FetchTwitterUrl('ADHD since:2023-06-01 until:2023-06-16', 100)
 fetch_twitter_url.get_tweets()
 fetch_twitter_url.get_df()
 fetch_twitter_url.get_csv()
