@@ -25,9 +25,10 @@ class FetchTweets:
             if index == self.limit:
                 break
             #URL = "https://twitter.com/{0}/status/{1}".format(tweet.user.username,tweet.id) -> alternative
-            dict_df = {'Date': tweet.date, 'URL': tweet.url, 'Tweet': tweet.rawContent, 'Username': tweet.user.username}
+            dict_df = {'Datetime': tweet.date, 'URL': tweet.url, 'Tweet': tweet.rawContent, 'Username': tweet.user.username}
             self.df_from_search = pd.concat([self.df_from_search, pd.DataFrame.from_records([dict_df])])
             index = index + 1
+        self.df_from_search.to_csv('F:\Meta\Twitter\ADHD.csv', index=False, encoding='utf_8_sig')
         return self.df_from_search
 
     def get_tweets_from_user(self, userID: str):
@@ -51,14 +52,11 @@ class FetchTweets:
             if index == self.limit:
                 break
             #URL = "https://twitter.com/{0}/status/{1}".format(tweet.user.username,tweet.id) -> alternative
-            dict_df = {'Date': tweet.date, 'URL': tweet.url, 'Tweet': tweet.rawContent, 'Username': tweet.user.username}
+            dict_df = {'Datetime': tweet.date, 'URL': tweet.url, 'Tweet': tweet.rawContent, 'Username': tweet.user.username}
             self.df_from_user = pd.concat([self.df_from_user, pd.DataFrame.from_records([dict_df])])
             index = index + 1
         return self.df_from_user
     
-    def get_csv(self):
-        self.df_from_search.to_csv('../Meta/user.csv', index=False, encoding='utf_8_sig')
-
 
 class TwitterVideoDownload:
     def __init__(self, output_directory):
@@ -83,9 +81,8 @@ class TwitterVideoDownload:
 
 
 ### test
-fetch_twitter_url = FetchTweets('ADHD since:2023-06-01 until:2023-06-16', 100)
-fetch_twitter_url.get_tweets_from_search()
-fetch_twitter_url.get_df_from_search()
-fetch_twitter_url.get_csv()
+fetch_twitter_url = FetchTweets()
+fetch_twitter_url.get_tweets_from_search('I was diagnosed with ADHD since:2023-06-10 until:2023-06-19')
+fetch_twitter_url.get_df_from_search(3000)
 #twitter_video_download = TwitterVideoDownload('D:/Twitter_videos')
 #twitter_video_download.download_videos_from_csv('F:/Meta/Twitter/user.csv')
