@@ -2,35 +2,62 @@ import pandas as pd
 import snscrape.modules.twitter as sntwitter
 import os
 
-
-# wirte a class for these codes above
-class FetchTwitterUrl:
-    def __init__(self, query, limit):
+class FetchTweets:
+    def get_tweets_from_search(self, query: str):
         '''
-        query: query = 'search text since:YYYY-MM-DD until:YYYY-MM-DD'
-        limit: int
+        Input: 
+            1. 'search text since:YYYY-MM-DD until:YYYY-MM-DD'
+            2. 'From: userID since:YYYY-MM-DD until:YYYY-MM-DD' (alternative of get user tweets)
+        Output: tweets (generator)
         '''
         self.query = query
+        self.tweets_from_search = sntwitter.TwitterSearchScraper(self.query).get_items()
+
+    def get_df_from_search(self, limit:int) -> pd.DataFrame:
+        '''
+        Input: limits of the number of tweets
+        Output: Dataframe with 'Datetime', 'URL', 'Tweet', 'Username
+        '''
         self.limit = limit
-        self.tweets = []
-        self.df = pd.DataFrame(columns=['Date','URL' ,'Tweet'])
-
-    def get_tweets(self):
-        self.tweets = sntwitter.TwitterSearchScraper(self.query).get_items()
-
-    def get_df(self):
+        self.df_from_search = pd.DataFrame(columns=['Datetime', 'URL', 'Tweet', 'Username'])
         index = 0
-        for tweet in self.tweets:
+        for tweet in self.tweets_from_search:
             if index == self.limit:
                 break
-            URL = "https://twitter.com/{0}/status/{1}".format(tweet.user.username,tweet.id)
-            df2 = {'Date': tweet.date, 'URL': URL, 'Tweet': tweet.rawContent}
-            self.df = pd.concat([self.df, pd.DataFrame.from_records([df2])])
+            #URL = "https://twitter.com/{0}/status/{1}".format(tweet.user.username,tweet.id) -> alternative
+            dict_df = {'Date': tweet.date, 'URL': tweet.url, 'Tweet': tweet.rawContent, 'Username': tweet.user.username}
+            self.df_from_search = pd.concat([self.df_from_search, pd.DataFrame.from_records([dict_df])])
             index = index + 1
-        return self.df
+        return self.df_from_search
 
+    def get_tweets_from_user(self, userID: str):
+        '''
+        Input: userID
+            E.g.: 'elonmusk'
+        Output: tweets (generator)
+        '''
+        self.user_id = userID
+        self.tweets_from_user = sntwitter.TwitterProfileScraper(self.user_id).get_items()
+    
+    def get_df_from_user(self, limit:int) -> pd.DataFrame:
+        '''
+        Input: limits of the number of tweets
+        Output: Dataframe with 'Datetime', 'URL', 'Tweet', 'Username
+        '''
+        self.limit = limit
+        self.df_from_user = pd.DataFrame(columns=['Datetime', 'URL', 'Tweet', 'Username'])
+        index = 0
+        for tweet in self.tweets_from_user:
+            if index == self.limit:
+                break
+            #URL = "https://twitter.com/{0}/status/{1}".format(tweet.user.username,tweet.id) -> alternative
+            dict_df = {'Date': tweet.date, 'URL': tweet.url, 'Tweet': tweet.rawContent, 'Username': tweet.user.username}
+            self.df_from_user = pd.concat([self.df_from_user, pd.DataFrame.from_records([dict_df])])
+            index = index + 1
+        return self.df_from_user
+    
     def get_csv(self):
-        self.df.to_csv('user.csv', index=False, encoding='utf_8_sig')
+        self.df_from_search.to_csv('../Meta/user.csv', index=False, encoding='utf_8_sig')
 
 
 class TwitterVideoDownload:
@@ -56,9 +83,9 @@ class TwitterVideoDownload:
 
 
 ### test
-fetch_twitter_url = FetchTwitterUrl('ADHD since:2023-06-01 until:2023-06-16', 100)
-fetch_twitter_url.get_tweets()
-fetch_twitter_url.get_df()
+fetch_twitter_url = FetchTweets('ADHD since:2023-06-01 until:2023-06-16', 100)
+fetch_twitter_url.get_tweets_from_search()
+fetch_twitter_url.get_df_from_search()
 fetch_twitter_url.get_csv()
 #twitter_video_download = TwitterVideoDownload('D:/Twitter_videos')
 #twitter_video_download.download_videos_from_csv('F:/Meta/Twitter/user.csv')

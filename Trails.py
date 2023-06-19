@@ -2,7 +2,7 @@ import pandas as pd
 import snscrape.modules.twitter as sntwitter
 import json
 
-userID = 'retsu_dao'
+userID = 'elonmusk'
 # Check if it is a valid Twitter username.
 checker = sntwitter.TwitterProfileScraper.is_valid_username(userID)
 print(checker)
@@ -53,7 +53,7 @@ def get_tweets(userID):
         index = index + 1
     return url_list
 
-print(get_tweets(userID))
-from fetchURL_def import TwitterVideoDownload
-twitter_video_download = TwitterVideoDownload('D:/Twitter_videos')
-twitter_video_download.download_videos_from_list(get_tweets(userID))
+#print(get_tweets(userID))
+#from fetchURL_def import TwitterVideoDownload
+#twitter_video_download = TwitterVideoDownload('D:/Twitter_videos')
+#twitter_video_download.download_videos_from_list(get_tweets(userID))
