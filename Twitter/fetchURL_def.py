@@ -28,7 +28,7 @@ class FetchTweets:
             dict_df = {'Datetime': tweet.date, 'URL': tweet.url, 'Tweet': tweet.rawContent, 'Username': tweet.user.username}
             self.df_from_search = pd.concat([self.df_from_search, pd.DataFrame.from_records([dict_df])])
             index = index + 1
-        self.df_from_search.to_csv('F:\Meta\Twitter\ADHD.csv', index=False, encoding='utf_8_sig')
+        self.df_from_search.to_csv('F:\Meta\snsAuto\Twitter\ADHD.csv', index=False, encoding='utf_8_sig')
         return self.df_from_search
 
     def get_tweets_from_user(self, userID: str):

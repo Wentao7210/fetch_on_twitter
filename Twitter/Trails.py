@@ -21,7 +21,7 @@ def get_json(userID):
         if index == limit:
             break
         # store in json file named UserID.json
-        with open('../Meta/Twitter/'+userID+'.json', 'a') as f:
+        with open('../Meta/snsAuto/Twitter/'+userID+'.json', 'a') as f:
             json.dump(tweet.json(), f)
             f.write('\n')
         index = index + 1
