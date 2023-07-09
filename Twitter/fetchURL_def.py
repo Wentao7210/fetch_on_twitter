@@ -55,6 +55,7 @@ class FetchTweets:
             dict_df = {'Datetime': tweet.date, 'URL': tweet.url, 'Tweet': tweet.rawContent, 'Username': tweet.user.username}
             self.df_from_user = pd.concat([self.df_from_user, pd.DataFrame.from_records([dict_df])])
             index = index + 1
+        self.df_from_user.to_csv(f'F:\Meta\snsAuto\Twitter\{self.user_id}.csv', index=False, encoding='utf_8_sig')
         return self.df_from_user
     
 
@@ -82,7 +83,9 @@ class TwitterVideoDownload:
 
 ### test
 fetch_twitter_url = FetchTweets()
-fetch_twitter_url.get_tweets_from_search('I was diagnosed with ADHD since:2023-06-10 until:2023-06-19')
-fetch_twitter_url.get_df_from_search(3000)
+#fetch_twitter_url.get_tweets_from_search('I was diagnosed with ADHD since:2023-06-09 until:2023-07-09')
+#fetch_twitter_url.get_df_from_search(3000)
+fetch_twitter_url.get_tweets_from_user('LightPhoenix00')
+fetch_twitter_url.get_df_from_user(3000)
 #twitter_video_download = TwitterVideoDownload('D:/Twitter_videos')
 #twitter_video_download.download_videos_from_csv('F:/Meta/Twitter/user.csv')
